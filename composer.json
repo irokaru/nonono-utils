@@ -3,6 +3,11 @@
     "description": "utils",
     "type": "library",
     "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "nonono\\": "src/"
+        }
+    },
     "authors": [
         {
             "name": "irokaru",
