@@ -55,4 +55,17 @@ class Validator
 
         return filter_var($var, FILTER_VALIDATE_FLOAT) ? true : false;
     }
+
+    /**
+     * @param mixed $var
+     * @return bool
+     */
+    public static function isInteger($var): bool
+    {
+        if (!static::isNumber($var)) {
+            return false;
+        }
+
+        return is_int($var);
+    }
 }
