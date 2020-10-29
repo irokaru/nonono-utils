@@ -34,10 +34,25 @@ class Validator
      * @param array $data
      * @return Validator
      */
-    public function __construct(array $data): Validator
+    public function __construct(array $data)
     {
         $this->_data = $data;
 
         return $this;
+    }
+
+    // -------------------------------------------------------------
+
+    /**
+     * @param mixed $var
+     * @return bool
+     */
+    public static function isNumber($var): bool
+    {
+        if (is_string($var) || is_bool($var)) {
+            return false;
+        }
+
+        return filter_var($var, FILTER_VALIDATE_FLOAT) ? true : false;
     }
 }
