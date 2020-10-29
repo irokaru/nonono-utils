@@ -125,4 +125,53 @@ class ValidatorTest extends TestCase
             $this->assertNotEquals($suite[0], Validator::isArray($suite[1], true, true), json_encode($suite));
         }
     }
+
+    public function testMinNumber()
+    {
+        $suites = [
+            // expect, var, limit, gt
+            [false, 3,   5, false],
+            [false, 4,   5, false],
+            [false, 5,   5, false],
+            [true,  5.1, 5, false],
+            [true,  6,   5, false],
+            [true,  7,   5, false],
+
+            [false, 3,   5, true],
+            [false, 4,   5, true],
+            [false, 4.9, 5, true],
+            [true,  5,   5, true],
+            [true,  6,   5, true],
+            [true,  7,   5, true],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals($suite[0], Validator::minNumber($suite[1], $suite[2], $suite[3]), json_encode($suite));
+        }
+    }
+
+
+    public function testMaxNumber()
+    {
+        $suites = [
+            // expect, var, limit, gt
+            [true,  3,   5, false],
+            [true,  4,   5, false],
+            [true,  4.9, 5, false],
+            [false, 5,   5, false],
+            [false, 6,   5, false],
+            [false, 7,   5, false],
+
+            [true,  3,   5, true],
+            [true,  4,   5, true],
+            [true,  5,   5, true],
+            [false, 5.1, 5, true],
+            [false, 6,   5, true],
+            [false, 7,   5, true],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals($suite[0], Validator::maxNumber($suite[1], $suite[2], $suite[3]), json_encode($suite));
+        }
+    }
 }

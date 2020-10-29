@@ -110,4 +110,28 @@ class Validator
 
         return true;
     }
+
+    /**
+     * check var greater limit
+     * @param int|float $var
+     * @param int|float $limit
+     * @param bool $gt
+     * @return bool
+     */
+    public static function minNumber(float $var, float $limit, bool $gt = true): bool
+    {
+        return $gt ? ($var >= $limit) : ($var > $limit);
+    }
+
+    /**
+     * check var lesser limit
+     * @param int|float $var
+     * @param int|float $limit
+     * @param bool $gt
+     * @return bool
+     */
+    public static function maxNumber(float $var, float $limit, bool $lt = true): bool
+    {
+        return $lt ? ($var <= $limit) : ($var < $limit);
+    }
 }
