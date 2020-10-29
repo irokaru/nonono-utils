@@ -54,5 +54,4 @@ class TestTools
 
         return $property;
     }
-
 }

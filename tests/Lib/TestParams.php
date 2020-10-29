@@ -4,59 +4,59 @@ namespace nonono\Lib;
 
 class TestParams
 {
-    const INT = [
+    public const INT = [
         10000, -10000,
     ];
 
-    const INT_COMMA = [
+    public const INT_COMMA = [
         100.00, -100.00,
     ];
 
-    const FLOAT = [
+    public const FLOAT = [
         123.45, -123.45,
     ];
 
-    const STRING_INT = [
+    public const STRING_INT = [
         '10000', '-10000',
     ];
 
-    const STRING_INT_COMMA = [
+    public const STRING_INT_COMMA = [
         '100.00', '-100.00',
     ];
 
-    const STRING_FLOAT = [
+    public const STRING_FLOAT = [
         '123.45', '-123.45',
     ];
 
-    const STRING_WORD = [
+    public const STRING_WORD = [
         'hogehoge',
     ];
 
-    const ARRAY = [
+    public const ARRAY = [
         ['a', 'b', 'c']
     ];
 
-    const ARRAY_EMPTY = [
+    public const ARRAY_EMPTY = [
         []
     ];
 
-    const ARRAY_ASSOC = [
+    public const ARRAY_ASSOC = [
         ['key' => 'hoge']
     ];
 
-    const BOOLEAN = [
+    public const BOOLEAN = [
         true, false,
     ];
 
-    const BOOLEAN_TRUE = [
+    public const BOOLEAN_TRUE = [
         true,
     ];
 
-    const BOOLEAN_FALSE = [
+    public const BOOLEAN_FALSE = [
         false,
     ];
 
-    const NULL = [
+    public const NULL = [
         null
     ];
 }

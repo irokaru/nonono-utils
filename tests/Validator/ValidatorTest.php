@@ -12,13 +12,21 @@ class ValidatorTest extends TestCase
     public function testIsNumber()
     {
         $suites_ok = TestTools::attachExpect(true, array_merge(
-            TestParams::INT, TestParams::INT_COMMA, TestParams::FLOAT,
+            TestParams::INT,
+            TestParams::INT_COMMA,
+            TestParams::FLOAT,
         ));
 
         $suites_ng = TestTools::attachExpect(false, array_merge(
-            TestParams::STRING_INT, TestParams::STRING_INT_COMMA, TestParams::STRING_FLOAT, TestParams::STRING_WORD,
-            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::ARRAY_ASSOC,
-            TestParams::BOOLEAN, TestParams::NULL,
+            TestParams::STRING_INT,
+            TestParams::STRING_INT_COMMA,
+            TestParams::STRING_FLOAT,
+            TestParams::STRING_WORD,
+            TestParams::ARRAY,
+            TestParams::ARRAY_EMPTY,
+            TestParams::ARRAY_ASSOC,
+            TestParams::BOOLEAN,
+            TestParams::NULL,
         ));
 
         foreach (array_merge($suites_ok, $suites_ng) as $suite) {
@@ -33,10 +41,17 @@ class ValidatorTest extends TestCase
         ));
 
         $suites_ng = TestTools::attachExpect(false, array_merge(
-            TestParams::INT_COMMA, TestParams::FLOAT,
-            TestParams::STRING_INT, TestParams::STRING_INT_COMMA, TestParams::STRING_FLOAT, TestParams::STRING_WORD,
-            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::ARRAY_ASSOC,
-            TestParams::BOOLEAN, TestParams::NULL,
+            TestParams::INT_COMMA,
+            TestParams::FLOAT,
+            TestParams::STRING_INT,
+            TestParams::STRING_INT_COMMA,
+            TestParams::STRING_FLOAT,
+            TestParams::STRING_WORD,
+            TestParams::ARRAY,
+            TestParams::ARRAY_EMPTY,
+            TestParams::ARRAY_ASSOC,
+            TestParams::BOOLEAN,
+            TestParams::NULL,
         ));
 
         foreach (array_merge($suites_ok, $suites_ng) as $suite) {
@@ -47,13 +62,21 @@ class ValidatorTest extends TestCase
     public function testIsString()
     {
         $suites_ok = TestTools::attachExpect(true, array_merge(
-            TestParams::STRING_INT, TestParams::STRING_INT_COMMA, TestParams::STRING_FLOAT, TestParams::STRING_WORD,
+            TestParams::STRING_INT,
+            TestParams::STRING_INT_COMMA,
+            TestParams::STRING_FLOAT,
+            TestParams::STRING_WORD,
         ));
 
         $suites_ng = TestTools::attachExpect(false, array_merge(
-            TestParams::INT, TestParams::INT_COMMA, TestParams::FLOAT,
-            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::ARRAY_ASSOC,
-            TestParams::BOOLEAN, TestParams::NULL,
+            TestParams::INT,
+            TestParams::INT_COMMA,
+            TestParams::FLOAT,
+            TestParams::ARRAY,
+            TestParams::ARRAY_EMPTY,
+            TestParams::ARRAY_ASSOC,
+            TestParams::BOOLEAN,
+            TestParams::NULL,
         ));
 
         foreach (array_merge($suites_ok, $suites_ng) as $suite) {
@@ -64,13 +87,21 @@ class ValidatorTest extends TestCase
     public function testIsArray()
     {
         $suites_ok = TestTools::attachExpect(true, array_merge(
-            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::ARRAY_ASSOC,
+            TestParams::ARRAY,
+            TestParams::ARRAY_EMPTY,
+            TestParams::ARRAY_ASSOC,
         ));
 
         $suites_ng = TestTools::attachExpect(false, array_merge(
-            TestParams::INT, TestParams::INT_COMMA, TestParams::FLOAT,
-            TestParams::STRING_INT, TestParams::STRING_INT_COMMA, TestParams::STRING_FLOAT, TestParams::STRING_WORD,
-            TestParams::BOOLEAN, TestParams::NULL,
+            TestParams::INT,
+            TestParams::INT_COMMA,
+            TestParams::FLOAT,
+            TestParams::STRING_INT,
+            TestParams::STRING_INT_COMMA,
+            TestParams::STRING_FLOAT,
+            TestParams::STRING_WORD,
+            TestParams::BOOLEAN,
+            TestParams::NULL,
         ));
 
         foreach (array_merge($suites_ok, $suites_ng) as $suite) {
@@ -81,7 +112,8 @@ class ValidatorTest extends TestCase
     public function testIsArrayStrict()
     {
         $suites_ok = TestTools::attachExpect(true, array_merge(
-            TestParams::ARRAY, TestParams::ARRAY_EMPTY
+            TestParams::ARRAY,
+            TestParams::ARRAY_EMPTY
         ));
 
         $suites_ng = TestTools::attachExpect(false, array_merge(
