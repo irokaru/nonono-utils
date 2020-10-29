@@ -68,4 +68,9 @@ class Validator
 
         return is_int($var);
     }
+
+    public static function isString($var): bool
+    {
+        return is_string($var);
+    }
 }
