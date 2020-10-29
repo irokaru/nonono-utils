@@ -174,4 +174,48 @@ class ValidatorTest extends TestCase
             $this->assertEquals($suite[0], Validator::maxNumber($suite[1], $suite[2], $suite[3]), json_encode($suite));
         }
     }
+
+    public function testMinLength()
+    {
+        $suites = [
+            // expect, var, limit, lt
+            [false, 'abc',     5, false],
+            [false, 'abcd',    5, false],
+            [false, 'abcde',   5, false],
+            [true,  'abcdef',  5, false],
+            [true,  'abcdefg', 5, false],
+
+            [false, 'abc',     5, true],
+            [false, 'abcd',    5, true],
+            [true,  'abcde',   5, true],
+            [true,  'abcdef',  5, true],
+            [true,  'abcdefg', 5, true],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals($suite[0], Validator::minLength($suite[1], $suite[2], $suite[3]), json_encode($suite));
+        }
+    }
+
+    public function testMaxLength()
+    {
+        $suites = [
+            // expect, var, limit, lt
+            [true,  'abc',     5, false],
+            [true,  'abcd',    5, false],
+            [false, 'abcde',   5, false],
+            [false, 'abcdef',  5, false],
+            [false, 'abcdefg', 5, false],
+
+            [true,  'abc',     5, true],
+            [true,  'abcd',    5, true],
+            [true,  'abcde',   5, true],
+            [false, 'abcdef',  5, true],
+            [false, 'abcdefg', 5, true],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals($suite[0], Validator::maxLength($suite[1], $suite[2], $suite[3]), json_encode($suite));
+        }
+    }
 }

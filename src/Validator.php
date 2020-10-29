@@ -134,4 +134,30 @@ class Validator
     {
         return $lt ? ($var <= $limit) : ($var < $limit);
     }
+
+    /**
+     * check var length greater limit
+     * @param string $var
+     * @param int $limit
+     * @param bool $gt
+     * @return bool
+     */
+    public static function minLength(string $var, int $limit, bool $gt = true): bool
+    {
+        $len = strlen($var);
+        return $gt ? ($len >= $limit) : ($len > $limit);
+    }
+
+    /**
+     * check var length lesser limit
+     * @param string $var
+     * @param int $limit
+     * @param bool $gt
+     * @return bool
+     */
+    public static function maxLength(string $var, int $limit, bool $lt = true): bool
+    {
+        $len = strlen($var);
+        return $lt ? ($len <= $limit) : ($len < $limit);
+    }
 }
