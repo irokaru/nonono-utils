@@ -25,6 +25,8 @@ return PhpCsFixer\Config::create()
         'return_type_declaration' => true,
         'ternary_operator_spaces' => true,
         'whitespace_after_comma_in_array' => true,
+        'trailing_comma_in_multiline_array' => true,
+        'phpdoc_align' => ['tags' => ['param']],
     ])
     ->setUsingCache(false)
     ->setFinder($finder);

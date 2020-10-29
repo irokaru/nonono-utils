@@ -24,7 +24,7 @@ class TestTools
      * 非公開メソッドを引っ張ってくる
      * `$method->invoke(class, $args);`
      *
-     * @param \class  $class
+     * @param \class $class
      * @param string $method_name
      * @return \ReflectionMethod
      */
@@ -41,7 +41,7 @@ class TestTools
     /**
      * 非公開プロパティを引っ張ってくる
      *
-     * @param \class  $class
+     * @param \class $class
      * @param string $property_name
      * @return \ReflectionProperty
      */

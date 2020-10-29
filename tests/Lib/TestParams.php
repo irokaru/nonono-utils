@@ -33,15 +33,15 @@ class TestParams
     ];
 
     public const ARRAY = [
-        ['a', 'b', 'c']
+        ['a', 'b', 'c'],
     ];
 
     public const ARRAY_EMPTY = [
-        []
+        [],
     ];
 
     public const ARRAY_ASSOC = [
-        ['key' => 'hoge']
+        ['key' => 'hoge'],
     ];
 
     public const BOOLEAN = [
@@ -57,6 +57,6 @@ class TestParams
     ];
 
     public const NULL = [
-        null
+        null,
     ];
 }

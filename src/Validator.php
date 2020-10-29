@@ -80,8 +80,8 @@ class Validator
 
     /**
      * @param mixed $var
-     * @param bool $strict
-     * @param bool $assoc
+     * @param bool  $strict
+     * @param bool  $assoc
      * @return bool
      */
     public static function isArray($var, bool $strict = false, bool $assoc = false): bool
@@ -115,7 +115,7 @@ class Validator
      * check var greater limit
      * @param int|float $var
      * @param int|float $limit
-     * @param bool $gt
+     * @param bool      $gt
      * @return bool
      */
     public static function minNumber(float $var, float $limit, bool $gt = true): bool
@@ -127,7 +127,7 @@ class Validator
      * check var lesser limit
      * @param int|float $var
      * @param int|float $limit
-     * @param bool $gt
+     * @param bool      $gt
      * @return bool
      */
     public static function maxNumber(float $var, float $limit, bool $lt = true): bool
@@ -138,8 +138,8 @@ class Validator
     /**
      * check var length greater limit
      * @param string $var
-     * @param int $limit
-     * @param bool $gt
+     * @param int    $limit
+     * @param bool   $gt
      * @return bool
      */
     public static function minLength(string $var, int $limit, bool $gt = true): bool
@@ -151,13 +151,39 @@ class Validator
     /**
      * check var length lesser limit
      * @param string $var
-     * @param int $limit
-     * @param bool $gt
+     * @param int    $limit
+     * @param bool   $gt
      * @return bool
      */
     public static function maxLength(string $var, int $limit, bool $lt = true): bool
     {
         $len = strlen($var);
+        return $lt ? ($len <= $limit) : ($len < $limit);
+    }
+
+    /**
+     * check var length greater limit
+     * @param array $var
+     * @param int   $limit
+     * @param bool  $gt
+     * @return bool
+     */
+    public static function minArrayLength(array $var, int $limit, bool $gt = true): bool
+    {
+        $len = count($var);
+        return $gt ? ($len >= $limit) : ($len > $limit);
+    }
+
+    /**
+     * check var length lesser limit
+     * @param array $var
+     * @param int   $limit
+     * @param bool  $gt
+     * @return bool
+     */
+    public static function maxArrayLength(array $var, int $limit, bool $lt = true): bool
+    {
+        $len = count($var);
         return $lt ? ($len <= $limit) : ($len < $limit);
     }
 }

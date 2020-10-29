@@ -218,4 +218,48 @@ class ValidatorTest extends TestCase
             $this->assertEquals($suite[0], Validator::maxLength($suite[1], $suite[2], $suite[3]), json_encode($suite));
         }
     }
+
+    public function testMinArrayLength()
+    {
+        $suites = [
+            // expect, var, limit, lt
+            [false, [1, 2, 3],             5, false],
+            [false, [1, 2, 3, 4],          5, false],
+            [false, [1, 2, 3, 4, 5],       5, false],
+            [true,  [1, 2, 3, 4, 5, 6],    5, false],
+            [true,  [1, 2, 3, 4, 5, 6, 7], 5, false],
+
+            [false, [1, 2, 3],             5, true],
+            [false, [1, 2, 3, 4],          5, true],
+            [true,  [1, 2, 3, 4, 5],       5, true],
+            [true,  [1, 2, 3, 4, 5, 6],    5, true],
+            [true,  [1, 2, 3, 4, 5, 6, 7], 5, true],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals($suite[0], Validator::minArrayLength($suite[1], $suite[2], $suite[3]), json_encode($suite));
+        }
+    }
+
+    public function testMaxArrayLength()
+    {
+        $suites = [
+            // expect, var, limit, lt
+            [true,  [1, 2, 3],             5, false],
+            [true,  [1, 2, 3, 4],          5, false],
+            [false, [1, 2, 3, 4, 5],       5, false],
+            [false, [1, 2, 3, 4, 5, 6],    5, false],
+            [false, [1, 2, 3, 4, 5, 6, 7], 5, false],
+
+            [true,  [1, 2, 3],             5, true],
+            [true,  [1, 2, 3, 4],          5, true],
+            [true,  [1, 2, 3, 4, 5],       5, true],
+            [false, [1, 2, 3, 4, 5, 6],    5, true],
+            [false, [1, 2, 3, 4, 5, 6, 7], 5, true],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals($suite[0], Validator::maxArrayLength($suite[1], $suite[2], $suite[3]), json_encode($suite));
+        }
+    }
 }
