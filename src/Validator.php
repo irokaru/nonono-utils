@@ -53,7 +53,7 @@ class Validator
             return false;
         }
 
-        return filter_var($var, FILTER_VALIDATE_FLOAT) ? true : false;
+        return gettype(filter_var($var, FILTER_VALIDATE_FLOAT)) === 'double' ? true : false;
     }
 
     /**
@@ -69,8 +69,45 @@ class Validator
         return is_int($var);
     }
 
+    /**
+     * @param mixed $var
+     * @return bool
+     */
     public static function isString($var): bool
     {
         return is_string($var);
+    }
+
+    /**
+     * @param mixed $var
+     * @param bool $strict
+     * @param bool $assoc
+     * @return bool
+     */
+    public static function isArray($var, bool $strict = false, bool $assoc = false): bool
+    {
+        if (!is_array($var)) {
+            return false;
+        }
+
+        if ($strict) {
+            $all_integer = true;
+
+            foreach (array_keys($var) as $key) {
+                if (!static::isInteger($key)) {
+                    if ($assoc) {
+                        $all_integer = false;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+
+            if ($assoc && $all_integer) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
