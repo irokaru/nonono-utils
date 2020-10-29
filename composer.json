@@ -3,6 +3,9 @@
     "description": "utils",
     "type": "library",
     "license": "MIT",
+    "scripts": {
+        "test:coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
     "autoload": {
         "psr-4": {
             "nonono\\": ["src/", "tests/"]
