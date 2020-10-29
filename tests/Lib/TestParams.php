@@ -40,7 +40,7 @@ class TestParams
         []
     ];
 
-    const OBJECT = [
+    const ARRAY_ASSOC = [
         ['key' => 'hoge']
     ];
 

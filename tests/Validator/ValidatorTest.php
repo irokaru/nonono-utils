@@ -17,7 +17,7 @@ class ValidatorTest extends TestCase
 
         $suites_ng = TestTools::attachExpect(false, array_merge(
             TestParams::STRING_INT, TestParams::STRING_INT_COMMA, TestParams::STRING_FLOAT, TestParams::STRING_WORD,
-            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::OBJECT,
+            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::ARRAY_ASSOC,
             TestParams::BOOLEAN, TestParams::NULL,
         ));
 
@@ -35,7 +35,7 @@ class ValidatorTest extends TestCase
         $suites_ng = TestTools::attachExpect(false, array_merge(
             TestParams::INT_COMMA, TestParams::FLOAT,
             TestParams::STRING_INT, TestParams::STRING_INT_COMMA, TestParams::STRING_FLOAT, TestParams::STRING_WORD,
-            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::OBJECT,
+            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::ARRAY_ASSOC,
             TestParams::BOOLEAN, TestParams::NULL,
         ));
 
@@ -52,7 +52,7 @@ class ValidatorTest extends TestCase
 
         $suites_ng = TestTools::attachExpect(false, array_merge(
             TestParams::INT, TestParams::INT_COMMA, TestParams::FLOAT,
-            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::OBJECT,
+            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::ARRAY_ASSOC,
             TestParams::BOOLEAN, TestParams::NULL,
         ));
 
@@ -64,7 +64,7 @@ class ValidatorTest extends TestCase
     public function testIsArray()
     {
         $suites_ok = TestTools::attachExpect(true, array_merge(
-            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::OBJECT,
+            TestParams::ARRAY, TestParams::ARRAY_EMPTY, TestParams::ARRAY_ASSOC,
         ));
 
         $suites_ng = TestTools::attachExpect(false, array_merge(
@@ -85,7 +85,7 @@ class ValidatorTest extends TestCase
         ));
 
         $suites_ng = TestTools::attachExpect(false, array_merge(
-            TestParams::OBJECT,
+            TestParams::ARRAY_ASSOC,
         ));
 
         foreach (array_merge($suites_ok, $suites_ng) as $suite) {
