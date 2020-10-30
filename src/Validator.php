@@ -41,6 +41,41 @@ class Validator
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @param array  $rules
+     * @return Validator
+     */
+    public function rules(string $key, array $rules)
+    {
+        if (!static::minLength($key, 1)) {
+            throw new \InvalidArgumentException('key length is greater than 1');
+        }
+
+        if (static::_checkRules($rules)) {
+            throw new \InvalidArgumentException('invalid rule');
+        }
+
+        $this->_rules[$key] = $rules;
+
+        return $this;
+    }
+
+    // -------------------------------------------------------------
+
+    /**
+     * @param array $rules
+     * @return bool
+     */
+    protected static function _checkRules(array $rules): bool
+    {
+        $_rules = [
+            'type', 'min', 'max',
+        ];
+
+        return (bool) count(array_diff($_rules, array_keys($rules)));
+    }
+
     // -------------------------------------------------------------
 
     /**
