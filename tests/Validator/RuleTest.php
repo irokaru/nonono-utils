@@ -73,10 +73,12 @@ class RuleTest extends TestCase
 
         $suites = [
             //expect, rules
-            [true,  ['type'     => 'a']],
-            [true,  ['min'      => 'a']],
-            [true,  ['max'      => 'a']],
-            [false, ['hogehoge' => 'a']],
+            [true,  ['type' => 'string']],
+            [true,  ['type' => 'int',    'min'      => 1]],
+            [true,  ['type' => 'int',    'max'      => 1]],
+            [false, ['type' => 'ugera']],
+            [false, ['type' => 'int',    'min'      => 'hoge']],
+            [false, ['type' => 'int',    'max'      => 'hoge']],
         ];
 
         foreach ($suites as $suite) {

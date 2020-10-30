@@ -304,6 +304,23 @@ class Validator
     protected static function _checkRules(array $rules): bool
     {
         $diff = array_diff(array_keys($rules), static::_getRules());
-        return !(bool) count($diff);
+
+        if ($diff === 0 || !isset($rules['type'])) {
+            return false;
+        }
+
+        if (!in_array($rules['type'], static::_getTypes(), true)) {
+            return false;
+        }
+
+        if (isset($rules['min']) && !static::isNumber($rules['min'])) {
+            return false;
+        }
+
+        if (isset($rules['max']) && !static::isNumber($rules['max'])) {
+            return false;
+        }
+
+        return true;
     }
 }
