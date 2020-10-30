@@ -50,4 +50,37 @@ class RuleTest extends TestCase
 
         $v->rules($key, $rules);
     }
+
+    public function testGetRules()
+    {
+        $v = new Validator([]);
+
+        $expect = ['type', 'min', 'max'];
+        $this->assertEquals($expect, TestTools::getProtectedMethod(Validator::class, '_getRules')->invoke($v));
+    }
+
+    public function testGetTypes()
+    {
+        $v = new Validator([]);
+
+        $expect = ['int', 'integer', 'numelic', 'string', 'array', 'assoc_array'];
+        $this->assertEquals($expect, TestTools::getProtectedMethod(Validator::class, '_getTypes')->invoke($v));
+    }
+
+    public function testCheckRules()
+    {
+        $v = new Validator([]);
+
+        $suites = [
+            //expect, rules
+            [true,  ['type'     => 'a']],
+            [true,  ['min'      => 'a']],
+            [true,  ['max'      => 'a']],
+            [false, ['hogehoge' => 'a']],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals($suite[0], TestTools::getProtectedMethod(Validator::class, '_checkRules')->invoke($v, $suite[1]), json_encode($suite));
+        }
+    }
 }

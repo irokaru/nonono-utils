@@ -73,7 +73,7 @@ class Validator
             throw new \InvalidArgumentException('key length is greater than 1');
         }
 
-        if (static::_checkRules($rules)) {
+        if (!static::_checkRules($rules)) {
             throw new \InvalidArgumentException('invalid rule');
         }
 
@@ -303,6 +303,7 @@ class Validator
      */
     protected static function _checkRules(array $rules): bool
     {
-        return (bool) count(array_diff(static::_getRules(), array_keys($rules)));
+        $diff = array_diff(array_keys($rules), static::_getRules());
+        return !(bool) count($diff);
     }
 }
