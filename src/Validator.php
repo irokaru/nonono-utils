@@ -217,7 +217,7 @@ class Validator
 
     /**
      * check var length between
-     * @param float $var
+     * @param array $var
      * @param int   $min
      * @param int   $max
      * @param bool  $gt

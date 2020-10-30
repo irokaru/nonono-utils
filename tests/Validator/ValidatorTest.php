@@ -175,6 +175,24 @@ class ValidatorTest extends TestCase
         }
     }
 
+    public function testBetweenNumber()
+    {
+        $suites = [
+            // expect, var, min, max
+            [false, 4,   5, 7],
+            [false, 4.9, 5, 7],
+            [true,  5,   5, 7],
+            [true,  6,   5, 7],
+            [true,  7,   5, 7],
+            [false, 7.1, 5, 7],
+            [false, 8,   5, 7],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals($suite[0], Validator::betweenNumber($suite[1], $suite[2], $suite[3]), json_encode($suite));
+        }
+    }
+
     public function testMinLength()
     {
         $suites = [
@@ -219,6 +237,22 @@ class ValidatorTest extends TestCase
         }
     }
 
+    public function testBetweenLength()
+    {
+        $suites = [
+            // expect, var, min, max
+            [false, 'abcd',     5, 7],
+            [true,  'abcde',    5, 7],
+            [true,  'abcdef',   5, 7],
+            [true,  'abcdefg',  5, 7],
+            [false, 'abcdefgh', 5, 7],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals($suite[0], Validator::betweenLength($suite[1], $suite[2], $suite[3]), json_encode($suite));
+        }
+    }
+
     public function testMinArrayLength()
     {
         $suites = [
@@ -260,6 +294,22 @@ class ValidatorTest extends TestCase
 
         foreach ($suites as $suite) {
             $this->assertEquals($suite[0], Validator::maxArrayLength($suite[1], $suite[2], $suite[3]), json_encode($suite));
+        }
+    }
+
+    public function testBetweenArrayLength()
+    {
+        $suites = [
+            // expect, var, min, max
+            [false, [1, 2, 3, 4],             5, 7],
+            [true,  [1, 2, 3, 4, 5],          5, 7],
+            [true,  [1, 2, 3, 4, 5, 6],       5, 7],
+            [true,  [1, 2, 3, 4, 5, 6, 7],    5, 7],
+            [false, [1, 2, 3, 4, 5, 6, 7, 8], 5, 7],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals($suite[0], Validator::betweenArrayLength($suite[1], $suite[2], $suite[3]), json_encode($suite));
         }
     }
 }
