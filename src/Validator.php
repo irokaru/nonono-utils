@@ -136,6 +136,20 @@ class Validator
     }
 
     /**
+     * check var between limit
+     * @param float     $var
+     * @param int|float $min
+     * @param int|float $max
+     * @param bool      $gt
+     * @param bool      $lt
+     * @return bool
+     */
+    public static function betweenNumber(float $var, float $min, float $max, bool $gt = true, bool $lt = true): bool
+    {
+        return static::minNumber($var, $min, $gt) && static::maxNumber($var, $max, $lt);
+    }
+
+    /**
      * check var length greater limit
      * @param string $var
      * @param int    $limit
@@ -162,6 +176,20 @@ class Validator
     }
 
     /**
+     * check var length between
+     * @param string $var
+     * @param int    $min
+     * @param int    $max
+     * @param bool   $gt
+     * @param bool   $lt
+     * @return bool
+     */
+    public static function betweenLength(string $var, int $min, int $max, bool $gt = true, bool $lt = true): bool
+    {
+        return static::minLength($var, $min, $gt) && static::maxLength($var, $max, $lt);
+    }
+
+    /**
      * check var length greater limit
      * @param array $var
      * @param int   $limit
@@ -185,5 +213,19 @@ class Validator
     {
         $len = count($var);
         return $lt ? ($len <= $limit) : ($len < $limit);
+    }
+
+    /**
+     * check var length between
+     * @param float $var
+     * @param int   $min
+     * @param int   $max
+     * @param bool  $gt
+     * @param bool  $lt
+     * @return bool
+     */
+    public static function betweenArrayLength(array $var, int $min, int $max, bool $gt = true, bool $lt = true): bool
+    {
+        return static::minArrayLength($var, $min, $gt) && static::maxArrayLength($var, $max, $lt);
     }
 }
