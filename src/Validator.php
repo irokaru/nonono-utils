@@ -20,12 +20,33 @@ class Validator
     /**
      * @var array
      */
-    protected static $_types = [
-        'int'     => 'static::is_number',
-        'integer' => 'static::is_number',
-        'numelic' => 'static::is_numelic',
-        'string'  => 'static::is_string',
-        'array'   => 'static::is_array',
+    protected static $_r = [
+        'type' => [
+            'int'         => 'static::isInteger',
+            'integer'     => 'static::isInteger',
+            'numelic'     => 'static::isNumelic',
+            'string'      => 'static::isString',
+            'array'       => 'static::isArray',
+            'assoc_array' => 'static::isAssocArray',
+        ],
+
+        'min' => [
+            'int'         => 'static::minNumber',
+            'integer'     => 'static::minNumber',
+            'numelic'     => 'static::minNumber',
+            'string'      => 'static::minLength',
+            'array'       => 'static::minArrayLength',
+            'assoc_array' => 'static::minArrayLength',
+        ],
+
+        'max' => [
+            'int'         => 'static::maxNumber',
+            'integer'     => 'static::maxNumber',
+            'numelic'     => 'static::maxNumber',
+            'string'      => 'static::maxLength',
+            'array'       => 'static::maxArrayLength',
+            'assoc_array' => 'static::maxArrayLength',
+        ],
     ];
 
     // -------------------------------------------------------------
@@ -59,21 +80,6 @@ class Validator
         $this->_rules[$key] = $rules;
 
         return $this;
-    }
-
-    // -------------------------------------------------------------
-
-    /**
-     * @param array $rules
-     * @return bool
-     */
-    protected static function _checkRules(array $rules): bool
-    {
-        $_rules = [
-            'type', 'min', 'max',
-        ];
-
-        return (bool) count(array_diff($_rules, array_keys($rules)));
     }
 
     // -------------------------------------------------------------
@@ -144,6 +150,15 @@ class Validator
         }
 
         return true;
+    }
+
+    /**
+     * @param mixed $var
+     * @return bool
+     */
+    public static function isAssocArray($var): bool
+    {
+        return static::isArray($var, true, true);
     }
 
     /**
@@ -262,5 +277,32 @@ class Validator
     public static function betweenArrayLength(array $var, int $min, int $max, bool $gt = true, bool $lt = true): bool
     {
         return static::minArrayLength($var, $min, $gt) && static::maxArrayLength($var, $max, $lt);
+    }
+
+    // -------------------------------------------------------------
+
+    /**
+     * @return array
+     */
+    protected static function _getRules(): array
+    {
+        return array_keys(static::$_r);
+    }
+
+    /**
+     * @return array
+     */
+    protected static function _getTypes(): array
+    {
+        return array_keys(static::$_r['type']);
+    }
+
+    /**
+     * @param array $rules
+     * @return bool
+     */
+    protected static function _checkRules(array $rules): bool
+    {
+        return (bool) count(array_diff(static::_getRules(), array_keys($rules)));
     }
 }
