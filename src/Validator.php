@@ -119,7 +119,7 @@ class Validator
 
         foreach ($this->_rules as $key => $rules) {
             $type = $rules['type'];
-            $name = $this->_getDataNameAsKey($key);
+            $name = $this->_getNameAsKey($key);
 
             // check type
             if (!call_user_func(static::$_r['type'][$type], $this->_getDataValueAsKey($key))) {
@@ -354,9 +354,9 @@ class Validator
      * @param string $key
      * @return mixed
      */
-    protected function _getDataNameAsKey(string $key)
+    protected function _getNameAsKey(string $key)
     {
-        return $this->_data[$key]['name'] ?? $key;
+        return $this->_rules[$key]['name'] ?? $key;
     }
 
     /**
