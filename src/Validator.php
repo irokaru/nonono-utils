@@ -49,6 +49,9 @@ class Validator
         ],
     ];
 
+    /**
+     * @var array
+     */
     protected static $_message = [
         'type' => [
             'int'         => '<%name>の型が不正です',
@@ -113,6 +116,9 @@ class Validator
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function errors(): array
     {
         $err = [];
@@ -149,6 +155,11 @@ class Validator
         }
 
         return $err;
+    }
+
+    public function exec(): bool
+    {
+        return count($this->errors()) === 0;
     }
 
     // -------------------------------------------------------------
