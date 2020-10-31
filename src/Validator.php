@@ -24,7 +24,7 @@ class Validator
         'type' => [
             'int'         => 'static::isInteger',
             'integer'     => 'static::isInteger',
-            'numelic'     => 'static::isNumelic',
+            'numelic'     => 'static::isNumber',
             'string'      => 'static::isString',
             'array'       => 'static::isArray',
             'assoc_array' => 'static::isAssocArray',
@@ -46,6 +46,35 @@ class Validator
             'string'      => 'static::maxLength',
             'array'       => 'static::maxArrayLength',
             'assoc_array' => 'static::maxArrayLength',
+        ],
+    ];
+
+    protected static $_message = [
+        'type' => [
+            'int'         => '<%name>の型が不正です',
+            'integer'     => '<%name>の型が不正です',
+            'numelic'     => '<%name>の型が不正です',
+            'string'      => '<%name>の型が不正です',
+            'array'       => '<%name>の型が不正です',
+            'assoc_array' => '<%name>の型が不正です',
+        ],
+
+        'min' => [
+            'int'         => '<%name>は<%num>以上にしてください',
+            'integer'     => '<%name>は<%num>以上にしてください',
+            'numelic'     => '<%name>は<%num>以上にしてください',
+            'string'      => '<%name>は<%num>文字以上にしてください',
+            'array'       => '<%name>は<%num>要素以上にしてください',
+            'assoc_array' => '<%name>は<%num>要素以上にしてください',
+        ],
+
+        'max' => [
+            'int'         => '<%name>は<%num>以下にしてください',
+            'integer'     => '<%name>は<%num>以下にしてください',
+            'numelic'     => '<%name>は<%num>以下にしてください',
+            'string'      => '<%name>は<%num>文字以下にしてください',
+            'array'       => '<%name>は<%num>要素以下にしてください',
+            'assoc_array' => '<%name>は<%num>要素以下にしてください',
         ],
     ];
 
@@ -73,13 +102,53 @@ class Validator
             throw new \InvalidArgumentException('key length is greater than 1');
         }
 
-        if (!static::_checkRules($rules)) {
+        $filtered_rules = static::_filterRules($rules);
+
+        if (!static::_checkRules($filtered_rules)) {
             throw new \InvalidArgumentException('invalid rule');
         }
 
-        $this->_rules[$key] = $rules;
+        $this->_rules[$key] = $filtered_rules;
 
         return $this;
+    }
+
+    public function errors(): array
+    {
+        $err = [];
+
+        foreach ($this->_rules as $key => $rules) {
+            $type = $rules['type'];
+            $name = $this->_getDataNameAsKey($key);
+
+            // check type
+            if (!call_user_func(static::$_r['type'][$type], $this->_getDataValueAsKey($key))) {
+                $msg = static::_getMessage('type', $type, $name);
+                $err = static::_setError($err, $key, $msg);
+                continue;
+            }
+
+            //  check type other than
+            foreach (array_slice(static::$_r, 1) as $rule_name => $methods) {
+                if (!isset($rules[$rule_name])) {
+                    continue;
+                }
+
+                $method = $methods[$type];
+
+                $args = [
+                    $this->_getDataValueAsKey($key),
+                    $rules[$rule_name],
+                ];
+
+                if (!call_user_func_array($method, $args)) {
+                    $msg = static::_getMessage($rule_name, $type, $name, $args[1]);
+                    $err = static::_setError($err, $key, $msg);
+                }
+            }
+        }
+
+        return $err;
     }
 
     // -------------------------------------------------------------
@@ -282,11 +351,45 @@ class Validator
     // -------------------------------------------------------------
 
     /**
+     * @param string $key
+     * @return mixed
+     */
+    protected function _getDataNameAsKey(string $key)
+    {
+        return $this->_data[$key]['name'] ?? $key;
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    protected function _getDataValueAsKey(string $key)
+    {
+        return $this->_data[$key];
+    }
+
+    // -------------------------------------------------------------
+
+    /**
      * @return array
      */
     protected static function _getRules(): array
     {
         return array_keys(static::$_r);
+    }
+
+
+    protected static function _filterRules($rules): array
+    {
+        $filter = [];
+
+        $filter_list = array_merge(static::_getRules(), ['name']);
+
+        foreach ($filter_list as $key) {
+            $filter[$key] = null;
+        }
+
+        return array_intersect_key($rules, $filter);
     }
 
     /**
@@ -322,5 +425,35 @@ class Validator
         }
 
         return true;
+    }
+
+    /**
+     * @param array  $error
+     * @param string $key
+     * @param string $message
+     */
+    protected static function _setError(array $error, string $key, string $message): array
+    {
+        if (!isset($error[$key])) {
+            $error[$key] = [];
+        }
+
+        $error[$key][] = $message;
+
+        return $error;
+    }
+
+    /**
+     * @param string $type
+     * @param string $name
+     * @param float  $num
+     * @return string
+     */
+    protected static function _getMessage(string $rule, string $type, string $name, float $num = 0): string
+    {
+        $message = static::$_message[$rule][$type];
+        $message = str_replace(['<%name>', '<%num>'], [$name, (string) $num], $message);
+
+        return $message;
     }
 }
