@@ -1,6 +1,6 @@
 <?php
 
-namespace nonono;
+namespace nonono\Validator;
 
 use PHPUnit\Framework\TestCase;
 

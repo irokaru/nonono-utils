@@ -1,6 +1,6 @@
 <?php
 
-namespace nonono;
+namespace nonono\Validator;
 
 /**
  * @package nonono\Validator
