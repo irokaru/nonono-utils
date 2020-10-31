@@ -131,6 +131,5 @@ class ExecuteTest extends TestCase
 
             $this->assertEquals($suite[0], $v->exec(), json_encode($suite));
         }
-
     }
 }
