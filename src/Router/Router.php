@@ -19,7 +19,7 @@ class Router
             throw new \InvalidArgumentException('invalid request method');
         }
 
-        return $_SERVER['REQUEST_METHOD'] === $request;
+        return static::_requestMethod() === $request;
     }
 
     /**
