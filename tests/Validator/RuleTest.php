@@ -122,11 +122,15 @@ class RuleTest extends TestCase
         $suites = [
             //expect, rules
             [true,  ['type' => 'string']],
-            [true,  ['type' => 'int',    'min'      => 1]],
-            [true,  ['type' => 'int',    'max'      => 1]],
+            [true,  ['type' => 'int',    'min'  => 1]],
+            [true,  ['type' => 'int',    'max'  => 1]],
+            [true,  ['type' => 'int',    'name' => 'a']],
+
+            [false, ['type' => 'int',    'min'  => 'hoge']],
+            [false, ['type' => 'int',    'max'  => 'hoge']],
+            [false, ['type' => 'int',    'name' => '']],
+
             [false, ['type' => 'ugera']],
-            [false, ['type' => 'int',    'min'      => 'hoge']],
-            [false, ['type' => 'int',    'max'      => 'hoge']],
         ];
 
         foreach ($suites as $suite) {
@@ -146,9 +150,11 @@ class RuleTest extends TestCase
         ];
 
         foreach ($suites as $suite) {
-            $this->assertEquals($suite[0],
-                                TestTools::getProtectedMethod(Validator::class, '_setError')->invoke($v, $suite[1], $suite[2], $suite[3]),
-                                json_encode($suite));
+            $this->assertEquals(
+                $suite[0],
+                TestTools::getProtectedMethod(Validator::class, '_setError')->invoke($v, $suite[1], $suite[2], $suite[3]),
+                json_encode($suite)
+            );
         }
     }
 
@@ -165,19 +171,19 @@ class RuleTest extends TestCase
             ['hogeの型が不正です', 'type', 'array',       'hoge', 0],
             ['hogeの型が不正です', 'type', 'assoc_array', 'hoge', 0],
 
-            ['hogeは0以上にしてください',    'min', 'int',         'hoge', 0],
-            ['hogeは1以上にしてください',    'min', 'integer',     'hoge', 1],
-            ['hogeは2以上にしてください',    'min', 'numelic',     'hoge', 2],
-            ['hogeは3文字以上にしてください','min', 'string',      'hoge', 3],
-            ['hogeは4要素以上にしてください','min', 'array',       'hoge', 4],
-            ['hogeは5要素以上にしてください','min', 'assoc_array', 'hoge', 5],
+            ['hogeは0以上にしてください',     'min', 'int',         'hoge', 0],
+            ['hogeは1以上にしてください',     'min', 'integer',     'hoge', 1],
+            ['hogeは2以上にしてください',     'min', 'numelic',     'hoge', 2],
+            ['hogeは3文字以上にしてください', 'min', 'string',      'hoge', 3],
+            ['hogeは4要素以上にしてください', 'min', 'array',       'hoge', 4],
+            ['hogeは5要素以上にしてください', 'min', 'assoc_array', 'hoge', 5],
 
-            ['hogeは0以下にしてください',    'max', 'int',         'hoge', 0],
-            ['hogeは1以下にしてください',    'max', 'integer',     'hoge', 1],
-            ['hogeは2以下にしてください',    'max', 'numelic',     'hoge', 2],
-            ['hogeは3文字以下にしてください','max', 'string',      'hoge', 3],
-            ['hogeは4要素以下にしてください','max', 'array',       'hoge', 4],
-            ['hogeは5要素以下にしてください','max', 'assoc_array', 'hoge', 5],
+            ['hogeは0以下にしてください',     'max', 'int',         'hoge', 0],
+            ['hogeは1以下にしてください',     'max', 'integer',     'hoge', 1],
+            ['hogeは2以下にしてください',     'max', 'numelic',     'hoge', 2],
+            ['hogeは3文字以下にしてください', 'max', 'string',      'hoge', 3],
+            ['hogeは4要素以下にしてください', 'max', 'array',       'hoge', 4],
+            ['hogeは5要素以下にしてください', 'max', 'assoc_array', 'hoge', 5],
         ];
 
         foreach ($suites as $suite) {

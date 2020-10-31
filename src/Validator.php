@@ -424,6 +424,10 @@ class Validator
             return false;
         }
 
+        if (isset($rules['name']) && (!static::isString($rules['name']) || !static::minLength($rules['name'], 1))) {
+            return false;
+        }
+
         return true;
     }
 
