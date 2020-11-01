@@ -8,6 +8,50 @@ use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
 {
+    public function testMatchPath()
+    {
+        $r = new Router();
+
+        $suites = [
+            //expect, path, script_name
+            [true, '/test', '/test'],
+            [true, '/hoge/{param}', '/hoge/123'],
+            [true, '/hoge/{param}', '/hoge/'],
+
+            [false, '/test', '/test/'],
+        ];
+
+        foreach ($suites as $suite) {
+            $_SERVER['SCRIPT_NAME'] = $suite[2];
+            $this->assertEquals(
+                $suite[0],
+                TestTools::getProtectedMethod(Router::class, '_matchPath')->invoke($r, $suite[1]),
+                json_encode($suite),
+            );
+        }
+    }
+
+    public function testValidatePath()
+    {
+        $r = new Router();
+
+        $suites = [
+            //expect, path
+            [true,  '/test'],
+            [true,  '/hoge/fuga'],
+            [false, 'test'],
+            [false, 'hoge/fuga'],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals(
+                $suite[0],
+                TestTools::getProtectedMethod(Router::class, '_validatePath')->invoke($r, $suite[1]),
+                json_encode($suite),
+            );
+        }
+    }
+
     public function testValidateRequestMethod()
     {
         $r = new Router();
@@ -60,6 +104,29 @@ class RouterTest extends TestCase
         foreach ($suites as $suite) {
             TestTools::getProtectedMethod(Router::class, '_validateRequestMethod')->invoke($r, $suite[2]);
         }
+    }
+
+    public function testRequest()
+    {
+        $r = new Router();
+
+        $suites = [
+            '/test',
+            '/hoge/aaa'
+        ];
+
+        foreach ($suites as $suite) {
+            $_SERVER['SCRIPT_NAME'] = $suite;
+
+            $this->assertEquals(
+                $suite,
+                TestTools::getProtectedMethod(Router::class, '_request')->invoke($r, $suite),
+                json_encode($suite)
+            );
+        }
+
+        unset($_SERVER['SCRIPT_NAME']);
+        $this->assertEquals('', TestTools::getProtectedMethod(Router::class, '_request')->invoke($r, $suite));
     }
 
     public function testRequestmethod()

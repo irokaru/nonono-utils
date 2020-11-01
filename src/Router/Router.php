@@ -46,12 +46,12 @@ class Router
             return false;
         }
 
-        for ($inx = 0; $inx < count($script_dir); $inx++) {
-            if (preg_match('/^{(.+?)}$/', $path_dir)) {
+        for ($idx = 0; $idx < count($script_dir); $idx++) {
+            if (preg_match('/^{(.+?)}$/', $path_dir[$idx])) {
                 continue;
             }
 
-            if ($path_dir !== $script_dir) {
+            if ($path_dir[$idx] !== $script_dir[$idx]) {
                 return false;
             }
         }
@@ -65,7 +65,7 @@ class Router
      */
     protected static function _validatePath(string $path): bool
     {
-        return preg_match('/^\//', $path) !== false;
+        return preg_match('/^\//', $path) !== 0;
     }
 
     /**
@@ -88,11 +88,11 @@ class Router
      */
     protected static function _request(): string
     {
-        return $_SERVER['SCRIPT_NAME'];
+        return $_SERVER['SCRIPT_NAME'] ?? '';
     }
 
     /**
-     * @return string
+     * @return string@
      */
     protected static function _requestMethod(): string
     {
