@@ -65,8 +65,15 @@ class TestTools
 
         $_gets = $parsed_url['query'] ?? '';
         foreach (explode('&', $_gets) as $gets) {
-            [$key, $value] = explode('=', $gets);
-            $_GET[$key]    = $value;
+            $parged_get = explode('=', $gets);
+
+            if (count($parged_get) === 0) {
+                continue;
+            }
+
+            $key        = $parged_get[0];
+            $value      = $parged_get[1] ?? '';
+            $_GET[$key] = $value;
         }
 
         $_SERVER['SERVER_NAME'] = $parsed_url['host'] ?? 'example.com';
