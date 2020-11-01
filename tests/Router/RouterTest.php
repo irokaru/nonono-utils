@@ -67,6 +67,22 @@ class RouterTest extends TestCase
         }
     }
 
+    public function testPostException()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('path must be slash at the beginning');
+
+        $suites = [
+            'hoge', 'hoge/', 'a/a/a/',
+        ];
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+
+        foreach ($suites as $suite) {
+            Router::post($suite, 'exception');
+        }
+    }
+
     public function testMatchPath()
     {
         $r = new Router();
