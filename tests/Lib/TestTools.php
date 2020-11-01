@@ -79,8 +79,9 @@ class TestTools
         $_SERVER['SERVER_NAME'] = $parsed_url['host'] ?? 'example.com';
         $_SERVER['SERVER_PORT'] = isset($parsed_url['port']) ? $parsed_url['path'] : 80;
         $_SERVER['SCRIPT_NAME'] = $parsed_url['path'] ?? '';
-        $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME']
-                                . isset($parsed_url['args']) ? ('?' . $parsed_url['args']) : '';
+
+        $_SERVER['REQUEST_URI']  = $_SERVER['SCRIPT_NAME'];
+        $_SERVER['REQUEST_URI'] .= isset($parsed_url['args']) ? ('?' . $parsed_url['args']) : '';
 
         $_SERVER['REQUEST_METHOD'] = $method;
     }
