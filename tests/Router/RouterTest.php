@@ -19,6 +19,7 @@ class RouterTest extends TestCase
             [true, '/hoge/{param}', '/hoge/'],
 
             [false, '/test', '/test/'],
+            [false, '/aaaa', '/bbbb'],
         ];
 
         foreach ($suites as $suite) {
@@ -103,6 +104,27 @@ class RouterTest extends TestCase
 
         foreach ($suites as $suite) {
             TestTools::getProtectedMethod(Router::class, '_validateRequestMethod')->invoke($r, $suite[2]);
+        }
+    }
+
+    public function testCheckParam()
+    {
+        $r = new Router();
+
+        $suites = [
+            //expect, path
+            [true, '{test}'],
+            [false, '{test'],
+            [false, 'test}'],
+            [false, '}test{'],
+        ];
+
+        foreach ($suites as $suite) {
+            $this->assertEquals(
+                $suite[0],
+                TestTools::getProtectedMethod(Router::class, '_checkParam')->invoke($r, $suite[1]),
+                json_encode($suite),
+            );
         }
     }
 

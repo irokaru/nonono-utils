@@ -47,7 +47,7 @@ class Router
         }
 
         for ($idx = 0; $idx < count($script_dir); $idx++) {
-            if (preg_match('/^{(.+?)}$/', $path_dir[$idx])) {
+            if (static::_checkParam($path_dir[$idx])) {
                 continue;
             }
 
@@ -81,6 +81,15 @@ class Router
         }
 
         return static::_requestMethod() === $request;
+    }
+
+    /**
+     * @param string $path
+     * @return bool
+     */
+    protected static function _checkParam(string $path): bool
+    {
+        return preg_match('/^{(.+?)}$/', $path) !== 0;
     }
 
     /**
