@@ -8,13 +8,18 @@ namespace nonono\Router;
 class Router
 {
     /**
+     * @var bool
+     */
+    protected static $_viewed = false;
+
+    /**
      * @param string $path
      * @param string $view
      * @return void
      */
     public static function get(string $path, string $view)
     {
-        if (!static::_validateRequestMethod('GET')) {
+        if (static::$_viewed || !static::_validateRequestMethod('GET')) {
             return;
         }
 
@@ -27,6 +32,8 @@ class Router
         }
 
         print($view);
+
+        static::$_viewed = true;
 
         return;
     }

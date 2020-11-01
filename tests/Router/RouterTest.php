@@ -8,6 +8,53 @@ use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
 {
+    public function testGet()
+    {
+        $r = new Router();
+        $suites = [
+            //expect, request
+            ['this is aaa',   '/aaa'],
+            ['bbb desuyo.',   '/bbb'],
+            ['/aaa/bbb dayo', '/aaa/bbb'],
+            ['param page',    '/aaa/hoge'],
+        ];
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        foreach ($suites as $suite) {
+            $_SERVER['SCRIPT_NAME'] = $suite[1];
+
+            ob_start();
+            Router::get('/aaa',         'this is aaa');
+            Router::get('/bbb',         'bbb desuyo.');
+            Router::get('/aaa/bbb',     '/aaa/bbb dayo');
+            Router::get('/aaa/{param}', 'param page');
+            $result = ob_get_clean();
+
+            $this->assertEquals($suite[0], $result, json_encode($suite));
+
+            TestTools::getProtectedProperty(Router::class, '_viewed')->setValue($r, false);
+        }
+
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+
+        foreach ($suites as $suite) {
+            $_SERVER['SCRIPT_NAME'] = $suite[1];
+
+            ob_start();
+            Router::get('/aaa',         'this is aaa');
+            Router::get('/bbb',         'bbb desuyo.');
+            Router::get('/aaa/bbb',     '/aaa/bbb dayo');
+            Router::get('/aaa/{param}', 'param page');
+            $result = ob_get_clean();
+
+            $this->assertEmpty($result, json_encode($suite));
+
+            TestTools::getProtectedProperty(Router::class, '_viewed')->setValue($r, false);
+        }
+
+    }
+
     public function testMatchPath()
     {
         $r = new Router();
