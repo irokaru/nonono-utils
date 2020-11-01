@@ -11,6 +11,7 @@ class RouterTest extends TestCase
     public function testGet()
     {
         $r = new Router();
+
         $suites = [
             //expect, request
             ['this is aaa',   '/aaa'],
@@ -25,9 +26,9 @@ class RouterTest extends TestCase
             $_SERVER['SCRIPT_NAME'] = $suite[1];
 
             ob_start();
-            Router::get('/aaa',         'this is aaa');
-            Router::get('/bbb',         'bbb desuyo.');
-            Router::get('/aaa/bbb',     '/aaa/bbb dayo');
+            Router::get('/aaa', 'this is aaa');
+            Router::get('/bbb', 'bbb desuyo.');
+            Router::get('/aaa/bbb', '/aaa/bbb dayo');
             Router::get('/aaa/{param}', 'param page');
             $result = ob_get_clean();
 
@@ -42,9 +43,9 @@ class RouterTest extends TestCase
             $_SERVER['SCRIPT_NAME'] = $suite[1];
 
             ob_start();
-            Router::get('/aaa',         'this is aaa');
-            Router::get('/bbb',         'bbb desuyo.');
-            Router::get('/aaa/bbb',     '/aaa/bbb dayo');
+            Router::get('/aaa', 'this is aaa');
+            Router::get('/bbb', 'bbb desuyo.');
+            Router::get('/aaa/bbb', '/aaa/bbb dayo');
             Router::get('/aaa/{param}', 'param page');
             $result = ob_get_clean();
 
@@ -52,7 +53,22 @@ class RouterTest extends TestCase
 
             TestTools::getProtectedProperty(Router::class, '_viewed')->setValue($r, false);
         }
+    }
 
+    public function testGetException()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('path must be slash at the beginning');
+
+        $suites = [
+            'hoge', 'hoge/', 'a/a/a/',
+        ];
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        foreach ($suites as $suite) {
+            Router::get($suite, 'exception');
+        }
     }
 
     public function testMatchPath()
@@ -181,7 +197,7 @@ class RouterTest extends TestCase
 
         $suites = [
             '/test',
-            '/hoge/aaa'
+            '/hoge/aaa',
         ];
 
         foreach ($suites as $suite) {

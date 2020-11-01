@@ -54,7 +54,7 @@ class Router
         }
 
         for ($idx = 0; $idx < count($script_dir); $idx++) {
-            if (static::_checkParam($path_dir[$idx])) {
+            if (static::_checkParam($path_dir[$idx]) || $path_dir === '*') {
                 continue;
             }
 
