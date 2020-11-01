@@ -38,6 +38,32 @@ class Router
         return;
     }
 
+    /**
+     * @param string $path
+     * @param string $view
+     * @return void
+     */
+    public static function post(string $path, string $view)
+    {
+        if (static::$_viewed || !static::_validateRequestMethod('POST')) {
+            return;
+        }
+
+        if (!static::_validatePath($path)) {
+            throw new \InvalidArgumentException('path must be slash at the beginning');
+        }
+
+        if (!static::_matchPath($path)) {
+            return;
+        }
+
+        print($view);
+
+        static::$_viewed = true;
+
+        return;
+    }
+
     // -------------------------------------------------------------
 
     /**

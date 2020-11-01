@@ -54,4 +54,27 @@ class TestTools
 
         return $property;
     }
+
+    /**
+     * @param string $url
+     * @param string $method
+     */
+    public static function access(string $url, string $method)
+    {
+        $parsed_url = parse_url($url);
+
+        $_gets = $parsed_url['query'] ?? '';
+        foreach (explode('&', $_gets) as $gets) {
+            [$key, $value] = explode('=', $gets);
+            $_GET[$key]    = $value;
+        }
+
+        $_SERVER['SERVER_NAME'] = $parsed_url['host'] ?? 'example.com';
+        $_SERVER['SERVER_PORT'] = isset($parsed_url['port']) ? $parsed_url['path'] : 80;
+        $_SERVER['SCRIPT_NAME'] = $parsed_url['path'] ?? '';
+        $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME']
+                                . isset($parsed_url['args']) ? '?' . $parsed_url['args'] : '';
+
+        $_SERVER['REQUEST_METHOD'] = $method;
+    }
 }

@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
 {
-    public function testGet()
+    public function testGetAndPost()
     {
         $r = new Router();
 
@@ -20,10 +20,8 @@ class RouterTest extends TestCase
             ['param page',    '/aaa/hoge'],
         ];
 
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-
         foreach ($suites as $suite) {
-            $_SERVER['SCRIPT_NAME'] = $suite[1];
+            TestTools::access('http://example.com' . $suite[1], 'GET');
 
             ob_start();
             Router::get('/aaa', 'this is aaa');
@@ -37,19 +35,17 @@ class RouterTest extends TestCase
             TestTools::getProtectedProperty(Router::class, '_viewed')->setValue($r, false);
         }
 
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-
         foreach ($suites as $suite) {
-            $_SERVER['SCRIPT_NAME'] = $suite[1];
+            TestTools::access('http://example.com' . $suite[1], 'POST');
 
             ob_start();
-            Router::get('/aaa', 'this is aaa');
-            Router::get('/bbb', 'bbb desuyo.');
-            Router::get('/aaa/bbb', '/aaa/bbb dayo');
-            Router::get('/aaa/{param}', 'param page');
+            Router::post('/aaa', 'this is aaa');
+            Router::post('/bbb', 'bbb desuyo.');
+            Router::post('/aaa/bbb', '/aaa/bbb dayo');
+            Router::post('/aaa/{param}', 'param page');
             $result = ob_get_clean();
 
-            $this->assertEmpty($result, json_encode($suite));
+            $this->assertEquals($suite[0], $result, json_encode($suite));
 
             TestTools::getProtectedProperty(Router::class, '_viewed')->setValue($r, false);
         }
